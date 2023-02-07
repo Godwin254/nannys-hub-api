@@ -143,8 +143,16 @@ exports.getOnePayment = async (req, res) => {
 exports.lipaNaMpesaCallback = async (req, res) => {
      
       try {
-            let message = req.body.Body.stkCallback["ResultDesc"]; //success or failed
-            let items = req.body.Body.stkCallback.CallbackMetadata.Item; //array of items
+            let items = await req.body.Body.stkCallback.CallbackMetadata.Item; //array of items
+            const resCode = await req.body.Body.stkCallback.ResultCode;
+
+            if (resCode !== 0) {
+                  console.log("User cancelled the transaction");
+                  return res.send({
+                        success: false,
+                        message: "User cancelled the transaction"
+                  });
+            }
 
             const paymentData = {
                   receiptNumber: items[1].Value,
@@ -152,16 +160,15 @@ exports.lipaNaMpesaCallback = async (req, res) => {
                   phone: items[4].Value,
                   date: items[3].Value
             }
-            console.log("callback", message);
-            //save payment data
+           
             const payment =  new Payment(paymentData);
 
             payment.save((err, payment) => {
                   if(err){
                         res.status(500).send({message: err.message});
                   }
-
-                  res.status(201).send({status: "ok", data: payment, message: "payment made successfully"});
+                  //update the paid option to true
+                  res.status(201).send({status: "ok", data: payment, message: "payment successful"});
             });
 
             
@@ -175,7 +182,7 @@ exports.lipaNaMpesaCallback = async (req, res) => {
 
 }
 
-//testing callback
+/*testing callback
 exports.testCallback = async  (req, res) => {
       
       try{
@@ -184,15 +191,15 @@ exports.testCallback = async  (req, res) => {
             if (resCode !== 0) {
                   console.log("User cancelled transaction");
                   res.status(201).send({status: "ok", message: req.body.Body.stkCallback.ResultDesc});
-            }
-
-            console.log(req.body.Body.stkCallback.CallbackMetadata);
-            res.status(201).send({status: "ok", data: req.body.Body.stkCallback.CallbackMetadata}); 
+            }else{
+                  console.log("Successful", req.body.Body.stkCallback.CallbackMetadata);
+                  res.status(201).send({status: "ok", data: req.body.Body.stkCallback.CallbackMetadata});
+            } 
 
       }catch(err){
             console.log("Error", err);
       }
 
 
-}
+}*/
 
