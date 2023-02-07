@@ -178,8 +178,8 @@ exports.lipaNaMpesaCallback = async (req, res) => {
 //testing callback
 exports.testCallback =  (req, res) => {
 
-      console.table(req.body);
-      //res.status(201).send({status: "ok", data: req.body});
+      console.log(req.body);
+      res.status(201).send({status: "ok", data: req.body.Body});
       /*try {
       
             res.status(201).send({
