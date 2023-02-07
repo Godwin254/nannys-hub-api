@@ -178,16 +178,14 @@ exports.lipaNaMpesaCallback = async (req, res) => {
 //testing callback
 exports.testCallback =  (req, res) => {
 
-      console.log(req.body);
-      res.status(201).send({status: "ok", data: req.body.Body});
-      /*try {
-      
-            res.status(201).send({
-                  data: req.body.Body,
-                  message: "callback received"
-            });
-      } catch (err) {
-            res.status(500).send({ message: err });
-      }*/
+
+      if (req.body.Body.stkCallback.ResultCode !== 0) {
+            console.log("User cancelled transaction");
+            res.status(201).send({status: "ok", message: req.body.Body.stkCallback.ResultDesc});
+      }
+
+      console.table(req.body.Body.stkCallback.CallbackMetadata);
+      res.status(201).send({status: "ok", data: req.body.Body.stkCallback.CallbackMetadata});
+
 }
 
