@@ -17,7 +17,7 @@ module.exports = function(app){
       app.get('/api/mpesa/payments/id', [authJwt.verifyToken], controller.getOnePayment);
       app.post('/api/mpesa/pay',[mpesaOAuth], controller.lipaNaMpesa);
       app.post('/callback', (req, res) => {
-            console.table(req.body);
-            //res.send(req.body);
+            console.log(req.body.Body);
+            res.send(req.body.Body);
       }) //lipNaMpesaCallback
 }
