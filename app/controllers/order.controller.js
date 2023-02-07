@@ -34,7 +34,7 @@ exports.orderById = (req, res) => {
 exports.createOrder = (req, res) => {
       
       try{
-            //firstname, lastname, email, phone, gender, message, nannyId, paid
+            //fullname, email, phone, message, nannyId, paid
             //const orderData = req.body;
             const order = new Order(req.body);
 
@@ -44,7 +44,7 @@ exports.createOrder = (req, res) => {
                         return;
                   }
             
-                  res.status(200).send({status: "ok", data: order, message: "Order created successfully"});
+                  res.status(201).send({status: "ok", data: order, message: "Order created successfully"});
             });
       }catch(err){
             res.status(500).send({message: err});

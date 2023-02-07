@@ -7,14 +7,9 @@ const orderSchema = new Schema({
             ref: "Nanny",
             required: true
       },
-      firstname: {
+      fullname: {
             type: String,
             required: true
-      },
-      lastname: {
-            type: String,
-            required: true
-      
       },
       email: {
             type: String,
