@@ -1,6 +1,6 @@
 # NANNYHUB-API (backend)
 
-Try out from the following [LINK](https://n-ar93.onrender.com)
+Try out from the following [LINK](https://n-ar93.onrender.com) --> *deployed on [render.com]*
 
 ## **Documentation**
 This documentation explains how to to interact with the backend for nannyhub application.
