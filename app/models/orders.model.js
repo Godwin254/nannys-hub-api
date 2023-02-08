@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
       nannyId: {
             type: Schema.Types.ObjectId,
-            ref: "Nanny",
-            required: true
+            ref: "Nanny"
+            //required: true
       },
       fullname: {
             type: String,
