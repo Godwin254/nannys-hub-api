@@ -1,15 +1,30 @@
 const Nanny = require('../models/nanny.model');
 const { sendEmail, helper } = require('../utils');
 
-exports.allNannies = (req, res) => {
-      Nanny.find({}, (err, nannies) => {
-            if(err){
-                  res.status(500).send({message: err});
-                  return;
+exports.allNannies = async (req, res, next) => {
+
+      const {page, limit} = req.pagination;
+
+      console.log(` page: ${page}, limit: ${limit} `);
+
+      try{
+            const nannies = await Nanny.find({}).skip((page - 1) * limit).limit(limit);
+            const count = await Nanny.countDocuments();
+            
+            const data = {
+                  limit,
+                  page,
+                  totalPages: Math.ceil(nannies.length / limit),
+                  count,
+                  results: nannies
             }
-      
-            res.status(200).send(nannies);
-      });
+
+            res.status(200).send({status: "ok", data});
+            
+      }catch(error){
+            return res.status(500).send({message: "Error occured while retrieving nannies"});
+      }
+     
 }
 
 exports.nannyById = (req, res) => {

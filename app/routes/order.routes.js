@@ -1,6 +1,6 @@
-const { authJwt } = require('../middlewares');
+const { authJwt, filters } = require('../middlewares');
 const controller = require('../controllers/order.controller');
-const { filters } = require('../middlewares');
+
 
 module.exports = function(app){
       app.use(function(req, res, next){
@@ -11,7 +11,7 @@ module.exports = function(app){
             next();
       });
       
-      app.get('/api/orders', [authJwt.verifyToken], controller.allOrders);
+      app.get('/api/orders', [authJwt.verifyToken, filters.paginate], controller.allOrders);
       app.get('/api/orders/:id', [authJwt.verifyToken], controller.orderById);
       app.post('/api/orders', controller.createOrder); //no auth - public client making requests
       app.patch('/api/orders/:id', [authJwt.verifyToken], controller.updateOrder);

@@ -55,8 +55,8 @@ exports.lipaNaMpesa = async (req, res) => {
       let partyB = bs_short_code;
       let phone_number = partyA; //same as partyA
       let callback_url = process.env.CALLBACK_URL; //update -localhost:8000/api/mpesa/lipa-na-mpesa-callback
-      let account_reference = "NannyHubLtd"; //should not exceed 12 characters
-      let transaction_desc = "Client Payment";
+      let account_reference = "Cabin_Crew"; //should not exceed 12 characters
+      let transaction_desc = "Enrollment Fee";
 
       //const xData = {url, bs_short_code, pass_key, password, transaction_type, amount, partyA, partyB, phone_number, callback_url, account_reference, transaction_desc};
       //console.table(xData);
@@ -101,42 +101,37 @@ exports.lipaNaMpesa = async (req, res) => {
 
 //get all payments
 exports.getAllPayments = async (req, res) => {
+      const {page, limit} = req.pagination;
       try {
 
-            Payment.find({}, (err, payments) => {
-                  if(err){
-                        res.status(500).send({message: err.message});
-                  }
+            const payments = await Payment.find({}).skip((page - 1) * limit).limit(limit);
+            const count = await Payment.countDocuments();
 
-                  res.status(200).send({status: "ok", data: payments})
-            })
+            const data = {
+                  limit,
+                  page,
+                  count,
+                  totalPages: Math.ceil(payments.length / limit),
+                  results: payments
+            }
+
+            res.status(200).send({status: "ok", data});
 
       } catch (err) {
-            return res.send({
-                  success: false,
-                  message: err
-            });
+            return res.send({  success: false, message: err  });
       }
 }
 
 //get payment by id
-exports.getOnePayment = async (req, res) => {
+exports.getOnePayment = async (req, res, next) => {
 
       try {
-            Payment.findById(req.params.id, (err, payment) => {
-                  if(err){
-                        res.status(500).send({message: err.message});
-                  }
-
-                  res.status(200).send({status: "ok", data: payment});
-            });
-
+            const payment = await Payment.findById(req.params.id);
+            res.status(200).send({status: "ok", data: payment});
       } catch (err) {
-            return res.send({
-                  success: false,
-                  message: err
-            });
+            return res.send({ success: false,  message: err });
       }
+
 }
 
 //save payment data to database
@@ -174,32 +169,7 @@ exports.lipaNaMpesaCallback = async (req, res) => {
             
 
       } catch (err) {
-            return res.send({
-                  success: false,
-                  message: err
-            });
+            return res.send({ success: false, message: err });
       }
 
 }
-
-/*testing callback
-exports.testCallback = async  (req, res) => {
-      
-      try{
-            const resCode = await req.body.Body.stkCallback.ResultCode;
-
-            if (resCode !== 0) {
-                  console.log("User cancelled transaction");
-                  res.status(201).send({status: "ok", message: req.body.Body.stkCallback.ResultDesc});
-            }else{
-                  console.log("Successful", req.body.Body.stkCallback.CallbackMetadata);
-                  res.status(201).send({status: "ok", data: req.body.Body.stkCallback.CallbackMetadata});
-            } 
-
-      }catch(err){
-            console.log("Error", err);
-      }
-
-
-}*/
-

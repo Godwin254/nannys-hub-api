@@ -1,24 +1,30 @@
-//all request made for nannies
-/**
- * - should have
- * - customer firstname + lastname
- * - customer email + phone
- * - customer gender + message
- * - nanny requested reference to nannies
- * - state - paid = true/false
- */
+
 const Order = require('../models/orders.model');
 
-exports.allOrders = (req, res) => {
-      Order.find({}, (err, orders) => {
-            if(err){
-                  res.status(500).send({message: err});
-                  return;
+exports.allOrders = async (req, res, next) => {
+
+      const {page, limit} = req.pagination;
+
+      try{
+            const orders = await Order.find({}).skip((page - 1) * limit).limit(limit);
+            const count = await Order.countDocuments();
+
+            const data = {
+                  limit,
+                  page,
+                  count,
+                  totalPages: Math.ceil(orders.length / limit),
+                  results: orders
             }
-      
-            res.status(200).send(orders);
-      });
+
+            res.status(200).send({status: "ok", data});
+
+      }catch(error){
+            return res.status(500).send({message: "Error occured while retrieving orders"});
+      }
+     
 }
+
 
 exports.orderById = (req, res) => {
       Order.findById(req.params.id, (err, order) => {

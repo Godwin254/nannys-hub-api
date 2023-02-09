@@ -1,4 +1,4 @@
-const { authJwt } = require('../middlewares');
+const { authJwt, filters } = require('../middlewares');
 const controller = require('../controllers/mpesa.controller');
 const {mpesaOAuth} = require('../utils');
 
@@ -12,7 +12,7 @@ module.exports = function(app){
       });
 
       app.get('/api/mpesa/access-token', controller.getAccessToken);
-      app.get('/api/mpesa/payments',[authJwt.verifyToken], controller.getAllPayments);
+      app.get('/api/mpesa/payments',[authJwt.verifyToken, filters.paginate], controller.getAllPayments);
       app.get('/api/mpesa/payments/id', [authJwt.verifyToken], controller.getOnePayment);
       app.post('/api/mpesa/pay',[mpesaOAuth], controller.lipaNaMpesa);
       app.post('/api/mpesa/callback', controller.lipaNaMpesaCallback) //lipNaMpesaCallback
