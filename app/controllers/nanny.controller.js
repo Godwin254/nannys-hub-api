@@ -4,11 +4,13 @@ const { sendEmail, helper } = require('../utils');
 exports.allNannies = async (req, res, next) => {
 
       const {page, limit} = req.pagination;
+      const filterData = req.filterData;
 
+      //console.log("filteredData",filterData)
       console.log(` page: ${page}, limit: ${limit} `);
 
       try{
-            const nannies = await Nanny.find({}).skip((page - 1) * limit).limit(limit);
+            const nannies = await Nanny.find(filterData).skip((page - 1) * limit).limit(limit);
             const count = await Nanny.countDocuments();
             
             const data = {

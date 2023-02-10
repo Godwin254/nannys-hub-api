@@ -4,9 +4,10 @@ const Order = require('../models/orders.model');
 exports.allOrders = async (req, res, next) => {
 
       const {page, limit} = req.pagination;
+      const filterData = req.filterData;
 
       try{
-            const orders = await Order.find({}).skip((page - 1) * limit).limit(limit);
+            const orders = await Order.find(filterData).skip((page - 1) * limit).limit(limit);
             const count = await Order.countDocuments();
 
             const data = {

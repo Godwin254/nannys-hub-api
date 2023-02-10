@@ -102,9 +102,10 @@ exports.lipaNaMpesa = async (req, res) => {
 //get all payments
 exports.getAllPayments = async (req, res) => {
       const {page, limit} = req.pagination;
+      const filterData = req.filterData;
       try {
 
-            const payments = await Payment.find({}).skip((page - 1) * limit).limit(limit);
+            const payments = await Payment.find(filterData).skip((page - 1) * limit).limit(limit);
             const count = await Payment.countDocuments();
 
             const data = {

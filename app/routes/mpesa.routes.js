@@ -11,9 +11,9 @@ module.exports = function(app){
             next();
       });
 
-      app.get('/api/mpesa/access-token', controller.getAccessToken);
-      app.get('/api/mpesa/payments',[authJwt.verifyToken, filters.paginate], controller.getAllPayments);
-      app.get('/api/mpesa/payments/id', [authJwt.verifyToken], controller.getOnePayment);
+      app.get('/api/mpesa/access-token',[authJwt.verifyToken], controller.getAccessToken);
+      app.get('/api/mpesa/payments',[authJwt.verifyToken, filters.paginate, filters.dynamicFilter], controller.getAllPayments);
+      app.get('/api/mpesa/payments/:id', [authJwt.verifyToken], controller.getOnePayment);
       app.post('/api/mpesa/pay',[mpesaOAuth], controller.lipaNaMpesa);
       app.post('/api/mpesa/callback', controller.lipaNaMpesaCallback) //lipNaMpesaCallback
 }

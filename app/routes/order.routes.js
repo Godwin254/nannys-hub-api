@@ -11,7 +11,7 @@ module.exports = function(app){
             next();
       });
       
-      app.get('/api/orders', [authJwt.verifyToken, filters.paginate], controller.allOrders);
+      app.get('/api/orders', [authJwt.verifyToken, filters.paginate, filters.dynamicFilter], controller.allOrders);
       app.get('/api/orders/:id', [authJwt.verifyToken], controller.orderById);
       app.post('/api/orders', controller.createOrder); //no auth - public client making requests
       app.patch('/api/orders/:id', [authJwt.verifyToken], controller.updateOrder);

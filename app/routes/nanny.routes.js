@@ -12,7 +12,7 @@ module.exports = function(app){
             next();
       });
       
-      app.get('/api/nannies', [filters.paginate], controller.allNannies);
+      app.get('/api/nannies', [filters.paginate, filters.dynamicFilter], controller.allNannies);
       app.get('/api/nannies/:id', controller.nannyById);
       app.post('/api/nannies/apply', controller.createNanny);
       app.patch('/api/nannies/:id', [authJwt.verifyToken], controller.updateNanny);
