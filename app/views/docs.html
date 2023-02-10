@@ -43,7 +43,7 @@
             padding: 10px;
             background-color: rgb(153, 170, 44);
             border-radius: 5px;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
       }
 
       .banner >a:hover{
@@ -61,13 +61,29 @@
             color: rgb(153, 170, 44);
       }
 
+      @media screen and (max-width: 475px){
+
+            .banner{
+                  height: 70vh;
+            }
+            .banner h1{
+                  font-size: 2rem;
+                  margin-bottom: 2rem;
+                  line-height: 1.6;
+            }
+
+            .banner >a{
+                  font-size: 1rem;
+            }
+      }
+
 </style>
 <body>
       <div class="banner">
             
             <h1>Nannies Hub Api Documentation</h1>
             <a href="https://documenter.getpostman.com/view/14678284/VV4s1Kao" target="_blank">Postman documentation</a>
-            <span>Developer - <a href="https://github.com/Godwin254">Brown</a></span>
+            <span>Developer - <a href="https://github.com/Godwin254">Brown</a> | <a href="https://github.com/Godwin254">View Project on Github</a></span>
       </div>
       
 </body>

@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 //register new admin
 exports.signup = async (req, res) => {
 
-     console.log(User);
+     //console.log(User);
 
      try{
           const user = await User.create({
