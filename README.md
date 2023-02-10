@@ -33,9 +33,6 @@ This documentation explains how to to interact with the backend for nannyhub app
 
 
 # MVPs
-The following are the minimum viable product for the api endpoints:
-
-- `/api/nannies`
-- `/api/mpesa/pay`
+View detailed documentation on [PUBLISHED POSTMAN DOCUMENTATION](https://documenter.getpostman.com/view/14678284/VV4s1Kao)
 
 
