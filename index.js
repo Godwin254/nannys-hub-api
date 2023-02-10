@@ -34,6 +34,17 @@ require('./app/routes/nanny.routes')(app);
 require('./app/routes/order.routes')(app);
 require('./app/routes/mpesa.routes')(app);
 
+//send api page
+app.get("/api", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "./app/views/docs.html"),
+        (err) => {
+            if (err) {
+                res.status(500).send({message: "Error loading api page"});
+            }
+        }
+    );
+});
 
 
 const dbConfig = require('./app/config/db.config');
@@ -56,18 +67,7 @@ app.listen(PORT, () => {
     console.log(`Server is running on ${LOCALHOST}`);
 });
 
-//module.exports = app;
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
+//module.exports = app
 
 /*
 
