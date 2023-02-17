@@ -50,6 +50,14 @@ exports.createOrder = (req, res) => {
                         res.status(500).send({message: err});
                         return;
                   }
+
+                  const mail = {
+                        email: order.email,
+                        subject: "REQUESTING FOR A NANNY ",
+                        message: `Hi ${order.fullname}, Your request for the selected nanny has been recieved.\nClick on the link below to proceed to checkout.\nLINK: ${process.env.CLIENT_URL}/checkout/${order.nannyId}`
+                  }
+
+                  sendEmail(mail);
             
                   res.status(201).send({status: "ok", data: order, message: "Order created successfully"});
             });
@@ -61,11 +69,18 @@ exports.createOrder = (req, res) => {
 exports.updateOrder = async (req, res) => {
             
       try{
-            //const orderData = req.body;
-            //const id = req.params.id;
+            const orderData = req.body;
+            const id = req.params.id;
 
-            const order = await Order.findByIdAndUpdate(req.params.id, req.body, {new: true})
-            res.status(200).send({ status: "ok", data: order, message: "Order updated successfully" });
+            Order.findByIdAndUpdate(id, orderData, {new: true}, (err, order) => {
+                  if(err){
+                        res.status(500).send({message: err});
+                        return;
+                  }
+            
+                  res.status(200).send({status: "ok", data: order, message: "Order updated successfully"});
+            });
+            
       }catch(err){
             res.status(500).send({message: err});
       }
