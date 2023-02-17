@@ -59,7 +59,9 @@ exports.createNanny = async (req, res) => {
                   const mail = {
                         email: nanny.email,
                         subject: "REGISTARTION FOR NANNY ROLE",
-                        message: `Hi ${nanny.firstname}, Your application for a nanny role has been recieved`
+                        message: `Hi ${nanny.firstname}, Your application for a nanny role has been recieved\n
+                        Click on the link below to verify your application.\n
+                        LINK: ${process.env.CLIENT_URL}/nanny/verify/${nanny._id}`
                   }
 
                   sendEmail(mail);
@@ -82,7 +84,42 @@ exports.updateNanny = (req, res) => {
                         res.status(500).send({message: err});
                         return;
                   }
-                  //store deleated object in trash
+
+                  //send an email to the nanny if the application is approved
+                  if (nanny.approved === true) {
+                        const mail = {
+                              email: nanny.email,
+                              subject: "NANNY ROLE APPROVAL",
+                              message: `Hi ${nanny.firstname}, Your application for a nanny role has been approved`
+                        }
+            
+                        sendEmail(mail);
+                  }
+
+                  //send an email to the nanny if nanny is booked
+                  if (nanny.booked === true) {
+                        const mail = {
+                              email: nanny.email,
+                              subject: "NEW GIG ALERT",
+                              message: `Hi ${nanny.firstname},\n
+                              You have a new client interested to hire you.\n`
+                        }
+            
+                        sendEmail(mail);
+                  }
+
+                  //send an email to the nanny if nanny has verified
+                  if (nanny.verified === true) {
+                        const mail = {
+                              email: nanny.email,
+                              subject: "NANNY VERIFICATION SUCCESS",
+                              message: `Hi ${nanny.firstname},\nYour application has been successfully verified.\n
+                              You will be notified when a client books you for a nanny gig.`
+                        }
+            
+                        sendEmail(mail);
+                  }
+
 
                   res.status(200).send({status: "ok", data: nanny, message: "Nanny updated successfully"});
             });
@@ -102,6 +139,8 @@ exports.deleteNanny = (req, res) => {
                         res.status(500).send({message: err});
                         return;
                   }
+                  //store deleated object in trash
+                  //await Trash.create(nanny);
             
                   res.status(200).send({status: "ok", data: nanny, message: "Nanny deleted successfully"});
             });

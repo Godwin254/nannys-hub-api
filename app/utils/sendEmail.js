@@ -15,14 +15,18 @@ module.exports = async (options) => {
         });
 
         const mailOptions = {
-            from: process.env.SMTP_USER,
+            from: `"NannysHub Ke" <${process.env.SMTP_USER}>`,
             to: email,
             subject: subject,
             text: message
         }
 
-        await transporter.sendMail(mailOptions);
-        console.log('Email sent!');
+        await transporter.sendMail(mailOptions, (err, info) => {
+            if(err){
+                console.log("Error occured while sending email: ", err);
+            }
+            console.log(`Email sent: ${info.response}`);
+        });
 
     }catch(err){
         console.log("Email not sent: ", err);
