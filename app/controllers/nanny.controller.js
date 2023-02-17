@@ -59,9 +59,7 @@ exports.createNanny = async (req, res) => {
                   const mail = {
                         email: nanny.email,
                         subject: "REGISTARTION FOR NANNY ROLE",
-                        message: `Hi ${nanny.firstname}, Your application for a nanny role has been recieved\n
-                        Click on the link below to verify your application.\n
-                        LINK: ${process.env.CLIENT_URL}/nanny/verify/${nanny._id}`
+                        message: `Hi ${nanny.firstname}, Your application for a nanny role has been recieved\nClick on the link below to verify your application.\nLINK: ${process.env.CLIENT_URL}/nanny/verify/${nanny._id}`
                   }
 
                   sendEmail(mail);
@@ -101,8 +99,7 @@ exports.updateNanny = (req, res) => {
                         const mail = {
                               email: nanny.email,
                               subject: "NEW GIG ALERT",
-                              message: `Hi ${nanny.firstname},\n
-                              You have a new client interested to hire you.\n`
+                              message: `Hi ${nanny.firstname},\nYou have a new client interested to hire you.`
                         }
             
                         sendEmail(mail);
@@ -113,8 +110,7 @@ exports.updateNanny = (req, res) => {
                         const mail = {
                               email: nanny.email,
                               subject: "NANNY VERIFICATION SUCCESS",
-                              message: `Hi ${nanny.firstname},\nYour application has been successfully verified.\n
-                              You will be notified when a client books you for a nanny gig.`
+                              message: `Hi ${nanny.firstname},\nYour application has been successfully verified.\nYou will be notified when a client books you for a nanny gig.`
                         }
             
                         sendEmail(mail);
