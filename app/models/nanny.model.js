@@ -57,6 +57,10 @@ const nannySchema = new Schema({
             type: Boolean,
             default: false
       },
+      verified: {
+            type: Boolean,
+            default: false
+      },
       booked: {
             type: Boolean,
             default: false
