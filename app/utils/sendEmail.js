@@ -25,8 +25,9 @@ module.exports = async (options) => {
             if(err){
                 console.log("Error occured while sending email: ", err);
             }
-            console.log(`Email sent: ${info}`);
+            console.log(`Email sent!`);
         });
+        
 
     }catch(err){
         console.log("Email not sent: ", err);

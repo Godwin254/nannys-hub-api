@@ -55,8 +55,8 @@ exports.lipaNaMpesa = async (req, res) => {
       let partyB = bs_short_code;
       let phone_number = partyA; //same as partyA
       let callback_url = process.env.CALLBACK_URL; //update -localhost:8000/api/mpesa/lipa-na-mpesa-callback
-      let account_reference = "Cabin_Crew"; //should not exceed 12 characters
-      let transaction_desc = "Enrollment Fee";
+      let account_reference = "NannysHubKe"; //should not exceed 12 characters
+      let transaction_desc = "Nanny Payment";
 
       //const xData = {url, bs_short_code, pass_key, password, transaction_type, amount, partyA, partyB, phone_number, callback_url, account_reference, transaction_desc};
       //console.table(xData);
