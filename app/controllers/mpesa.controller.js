@@ -3,6 +3,7 @@ const axios = require('axios').default;
 require('dotenv').config();
 
 const Payment = require('../models/payment.model');
+const Order = require('../models/order.model');
 
 
 exports.getAccessToken = async (req, res, next) => {
@@ -173,4 +174,23 @@ exports.lipaNaMpesaCallback = async (req, res) => {
             return res.send({ success: false, message: err });
       }
 
+}
+
+//confirm payment code from client
+exports.confirmPayment = async (req, res) => {
+      try {
+            const { code, nannyID } = req.body;
+
+            //find payment where receipt number is equal to the code sent from client
+            const payment = await Payment.find({ receiptNumber: code });
+
+            if (!payment) {
+                  return res.status(404).send({ message: "Payment not found" });
+            }
+            //update the order to paid and set the payment id to the payment id
+            await Order.findOneAndUpdate({ nannyId: nannyID }, { paid: true, paymentCode: payment[0]._id }, { new: true });
+            return res.status(200).send({ message: "Payment confirmed" });
+      } catch (err) {
+            return res.send({ success: false, message: err });
+      }
 }
