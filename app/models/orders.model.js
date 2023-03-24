@@ -29,6 +29,10 @@ const orderSchema = new Schema({
             default: false
             //required: true
       },
+      paymentCode: {
+            type: Schema.Types.ObjectId,
+            ref: "Payment"
+      },
       createAt: {
             type: Date,
             immutable: true, //cannot be changed

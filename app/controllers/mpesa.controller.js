@@ -3,7 +3,7 @@ const axios = require('axios').default;
 require('dotenv').config();
 
 const Payment = require('../models/payment.model');
-const Order = require('../models/order.model');
+const Order = require('../models/orders.model');
 
 
 exports.getAccessToken = async (req, res, next) => {
